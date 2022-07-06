@@ -1,20 +1,40 @@
-var peso = [35, 38, 40, 48];
+var sea,ship;
+var seaImg,shipImg;
 
-function media(){
-  var soma = peso[0] + peso[1] + peso[2] + peso[3];
-  var media = soma / peso.length;
-  console.log(media);
+function preload(){
+  // Descomente o código para adicionar animação ao navio
+  shipImg1 = loadAnimation("ship-1.png");
+  shipImg1 = loadAnimation("ship-1.png","ship-2.png","ship-1.png","ship-2.png");
+
+  seaImg = loadImage("sea.png");
 }
 
-function setup() 
-{
+function setup(){
   createCanvas(400,400);
-  media();
+  background("blue");
+
+  // Movendo o fundo
+  sea=createSprite(400,200);
+  sea.addImage(seaImg);
+  sea.velocityX = -5;
+  sea.scale=0.3;
+
+  ship = createSprite(130,200,30,30);
+  ship.addAnimation("movingShip",shipImg1);
+  ship.scale =0.25;
+  
 }
 
-function draw() 
-{
-background(51);
+function draw() {
+  background(0);
+  sea.velocityX = -3;
 
+  // Descomente o código para redefinir o fundo
+  if(sea.x < 0){
+    sea.x = sea.width/8;
+
+  }
+
+ 
+  drawSprites();
 }
-
