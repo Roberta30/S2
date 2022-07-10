@@ -1,40 +1,64 @@
-var sea,ship;
-var seaImg,shipImg;
+var path,boy,leftBoundary,rightBoundary;
+var pathImg,boyImg;
+var i;
+
 
 function preload(){
-  // Descomente o código para adicionar animação ao navio
-  shipImg1 = loadAnimation("ship-1.png");
-  shipImg1 = loadAnimation("ship-1.png","ship-2.png","ship-1.png","ship-2.png");
+boyImg=loadAnimation("Runner-1.png","Runner-2.png","Runner-1.png","Runner-2.png");
 
-  seaImg = loadImage("sea.png");
+pathImg = loadImage("path.png");
 }
 
 function setup(){
-  createCanvas(400,400);
-  background("blue");
+   createCanvas(400,400);
+    
+ // Movendo o fundo 
+   path=createSprite(200,200);
+   path.addImage(pathImg);
+   path.velocityY = 4;
+   path.scale=1.2;
 
-  // Movendo o fundo
-  sea=createSprite(400,200);
-  sea.addImage(seaImg);
-  sea.velocityX = -5;
-  sea.scale=0.3;
+ //Criando menino que corre 
+ //O MENINO NAO TA APARECENDO NA NOSSA TELA, A GENTE ACHA QUE TA CERTO, SO QUE NAO VAI, OBG S2
+   boy=createSprite(210,330,70,70);
+   boy.addAnimation("running", boyImg);
+   boy.scale= 1.;
 
-  ship = createSprite(130,200,30,30);
-  ship.addAnimation("movingShip",shipImg1);
-  ship.scale =0.25;
-  
+
+ // Criando Boundary (Limite) esquerdo  
+   leftBoundary=createSprite(20,330,50,400);
+   leftBoundary.visible = false;
+
+ //Crie Boundary direito 
+   rightBoundary=createSprite(385,330,50,400);
+   rightBoundary.visible = false;
 }
+
 
 function draw() {
-  background(0);
-  sea.velocityX = -3;
+ background(0);
+ path.velocityY = 4;
 
-  // Descomente o código para redefinir o fundo
-  if(sea.x < 0){
-    sea.x = sea.width/8;
 
-  }
-
+ // Menino se movendo no eixo X com o mouse
+ boy.x = World.mouseX;
  
-  drawSprites();
+ edges= createEdgeSprites();
+ boy.collide(edges[3]);
+ boy.collide(leftBoundary);
+ boy.collide(rightBoundary);
+
+ //Reiniciar o fundo
+ if(path.y > 444){
+   path.y = path.width;
+ }
+
+
+
+ drawSprites();
+
 }
+
+
+
+
