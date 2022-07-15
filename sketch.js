@@ -1,45 +1,64 @@
-var marks = [35,38,42,45,43,34,46,41,48,32];
+var path,boy,leftBoundary,rightBoundary;
+var pathImg,boyImg;
+var i;
 
 
-function setup() 
-{
-  createCanvas(400,400);
+function preload(){
+boyImg=loadAnimation("Runner-1.png","Runner-2.png","Runner-1.png","Runner-2.png");
 
-
-  //PESQUISAS QUE EU FIS
-
-  //O laço For é recomendado para ser usado quando temos um número fixo de iterações necessárias para o loop.
-
-  //O laço for é uma estrutura de repetição muito utilizada nos programas em C. É muito útil
-  //quando se sabe de antemão quantas vezes a repetição deverá ser executada.
-  //Este laço utiliza uma variável para controlar a contagem do loop, bem como seu incremento.
-
-  //A sintaxe do for é a seguinte: for(inicialização, condição, iteração) { faça... } 
-  //O for é um loop mais simples que o while. O while é algo muito poderoso,
-  //porém mais utilizado quando queremos fazer algo recursivo (aprenderemos sobre isso depois).
-
-  //https://woliveiras.com.br/posts/la%C3%A7os-de-repeti%C3%A7%C3%A3o-for-for-in-for-of/
-  //https://medium.com/reactbrasil/como-o-javascript-funciona-entendendo-as-fun%C3%A7%C3%B5es-e-suas-formas-de-uso-eb387c7fa138
-  //https://www.cprogressivo.net/2013/02/O-que-e-para-que-serve-e-como-usar-o-laco-FOR-em-C.html
-  //https://cursos.alura.com.br/forum/topico-nao-entendi-como-o-for-funciona-105562
-  //https://blog.betrybe.com/for-java/
-  //https://pt.stackoverflow.com/questions/247952/como-funciona-o-for
-
-  for(var c = 0; c < marks.length; c++){
-
-    if(marks[c] >= 35){
-      console.log(marks[c]);
-
-    }
-
-  }
-
+pathImg = loadImage("path.png");
 }
 
-function draw() 
-{
-  background(30);
+function setup(){
+   createCanvas(400,400);
+    
+ // Movendo o fundo 
+   path=createSprite(200,200);
+   path.addImage(pathImg);
+   path.velocityY = 4;
+   path.scale=1.2;
+
+ //Criando menino que corre 
+ //O MENINO NAO TA APARECENDO NA NOSSA TELA, A GENTE ACHA QUE TA CERTO, SO QUE NAO VAI, OBG S2
+   boy=createSprite(210,330,70,70);
+   boy.addAnimation("running", boyImg);
+   boy.scale= 1.;
+
+
+ // Criando Boundary (Limite) esquerdo  
+   leftBoundary=createSprite(20,330,50,400);
+   leftBoundary.visible = false;
+
+ //Crie Boundary direito 
+   rightBoundary=createSprite(385,330,50,400);
+   rightBoundary.visible = false;
 }
 
+
+function draw() {
+ background(0);
+ path.velocityY = 4;
+
+
+ // Menino se movendo no eixo X com o mouse
+ boy.x = World.mouseX;
  
+ edges= createEdgeSprites();
+ boy.collide(edges[3]);
+ boy.collide(leftBoundary);
+ boy.collide(rightBoundary);
+
+ //Reiniciar o fundo
+ if(path.y > 444){
+   path.y = path.width;
+ }
+
+
+
+ drawSprites();
+
+}
+
+
+
 
